@@ -1,6 +1,7 @@
 package com.example.ojastest.ui;
 
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.databinding.DataBindingUtil;
@@ -46,6 +47,13 @@ public class OjasAdapter extends RecyclerView.Adapter<OjasAdapter.MyViewHolder> 
     public void onBindViewHolder(MyViewHolder holder, int position) {
         Hit post = mDataset.get(position);
         holder.binding.setPost(post);
+
+        holder.binding.switchC.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                
+            }
+        });
     }
 
     public void addAll(List<Hit> mDataset) {

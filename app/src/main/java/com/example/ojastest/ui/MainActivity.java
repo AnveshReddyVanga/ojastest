@@ -22,6 +22,8 @@ public class MainActivity extends AppCompatActivity {
     MainViewModel mainViewModel;
     PaginationScrollListener scrollListener;
     private int pageNumber = 1;
+    private int selectCount = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +43,8 @@ public class MainActivity extends AppCompatActivity {
 
             }
         };
+
+        setTitle("SelectCount:" +selectCount);
 
         binding.recyclerView.addOnScrollListener(scrollListener);
         mainViewModel.listMutableLiveData.observe(this, new Observer<List<Hit>>() {

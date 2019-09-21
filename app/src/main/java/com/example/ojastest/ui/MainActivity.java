@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
         mainViewModel.listMutableLiveData.observe(this, new Observer<List<Hit>>() {
             @Override
             public void onChanged(List<Hit> ojas) {
+                binding.swipe.setRefreshing(false);
                 binding.getAdapter().addAll(ojas);
             }
         });
@@ -53,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
         binding.swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                mainViewModel.totalSize = 0;
                 setInitialValuePagination();
                 mainViewModel.getOjas();
             }

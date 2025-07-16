@@ -1,0 +1,10 @@
+@Configuration
+public class FilterConfig {
+    @Bean
+    public FilterRegistrationBean<InputSanitizationFilter> loggingFilter() {
+        FilterRegistrationBean<InputSanitizationFilter> registrationBean = new FilterRegistrationBean<>();
+        registrationBean.setFilter(new InputSanitizationFilter());
+        registrationBean.addUrlPatterns("/users/*"); // Apply the filter only to the relevant URL patterns
+        return registrationBean;
+    }
+}

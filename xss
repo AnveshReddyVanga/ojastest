@@ -1,4 +1,24 @@
 ReactiveException: java.util.concurrent.TimeoutException: Did not observe any item or terminal signal within 240000ms in 'flatMap' (and no fallback has been configured)
+1. Set HttpClient timeouts in WebConfig
+Add connect, read, and write timeouts at the network layer:
+.option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 5000)
+.responseTimeout(Duration.ofSeconds(30))
+.doOnConnected(conn -> conn
+    .addHandlerLast(new ReadTimeoutHandler(30, TimeUnit.SECONDS))
+    .addHandlerLast(new WriteTimeoutHandler(10, TimeUnit.SECONDS))
+)
+
+2. Use shorter per-call .timeout() in WebClientHelper
+For most APIs, 15–30 seconds is enough:
+
+.timeout(Duration.ofSeconds(30))
+.onErrorResume(TimeoutException.class, e -> {
+    log.error("Request to {} timed out", uri, e);
+    return Mono.empty();
+})
+This prevents your flatMap chain from waiting until the global 4-min cutoff.
+
+3. Avoid .block() inside reactive flows
 
 package net.jpmchase.ccb.esignd.httphelper;
 
